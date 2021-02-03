@@ -42,7 +42,7 @@ class LinkedList:
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
-        self.len_ = 0
+        self.__len = 0
         self.head = None  # Node
 
         if data:  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
@@ -51,29 +51,59 @@ class LinkedList:
 
     def __str__(self):
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
-        result = []
-        current_node = self.head
+        # result = []
+        # current_node = self.head
+        #
+        # for _ in range(self.len_ - 1):
+        #     result.append(current_node.value)
+        #     current_node = current_node.next
+        #
+        # result.append(current_node.value)
 
-        for _ in range(self.len_ - 1):
-            result.append(current_node.value)
-            current_node = current_node.next
-
-        result.append(current_node.value)
-
-        return f"{result}"
+        return f"{[value for value in self]}"
 
     def __repr__(self):
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-        return ""
+        return f""
 
     def __len__(self):
-        ...
+        return self.__len
+
+    def __step_by_step__(self, item: int) -> Any:
+        if not isinstance(item, int):
+            raise TypeError(...)
+
+        if not 0 <= item < self.__len:
+            raise IndexError(...)
+
+        current_node = self.head
+        for _ in range(item):
+            current_node = current_node.next
+        return current_node.value
 
     def __getitem__(self, item: int) -> Any:
-        ...
+        if not isinstance(item, int):
+            raise TypeError(...)
 
-    def __setitem__(self, key, value):
-        ...
+        if not 0 <= item < self.__len:
+            raise IndexError(...)
+
+        current_node = self.head
+        for _ in range(item):
+            current_node = current_node.next
+        return current_node.value
+
+    def __setitem__(self, key: int, value: Any):
+        if not isinstance(key, int):
+            raise TypeError(...)
+
+        if not 0 <= key < self.__len:
+            raise IndexError(...)
+
+        current_node = self.head
+        for _ in range(key):
+            current_node.value = value
+            return current_node.value
 
     def append(self, value: Any):
         """Добавление элемента в конец связного списка"""
@@ -82,21 +112,36 @@ class LinkedList:
             self.head = append_node
         else:
             tail = self.head  # ToDo Завести атрибут self.tail, который будет хранить последний узел
-            for _ in range(self.len_ - 1):
+            for _ in range(self.__len - 1):
                 tail = tail.next
             self.__linked_nodes(tail, append_node)
 
-        self.len_ += 1
+        self.__len += 1
 
     @staticmethod
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
         left.next = right
 
     def to_list(self) -> list:
-        ...
+        return [value for value in self]
 
     def insert(self, index: int, value: Any) -> None:
-        ...
+        if index == 0:
+            first_node = self.Node(value)
+            self.__linked_nodes(first_node, self.head)
+            self.head = first_node
+            self.__len += 1
+
+        elif 1 <= index <= self.__len:
+            prev_node = self.__step_by_step__(index - 1)
+            current_node = prev_node
+            insert_node = self.Node(value)
+            self.__linked_nodes(insert_node, current_node)
+            self.__linked_nodes(prev_node, insert_node)
+            self.__len += 1
+
+        elif index > self.__len:
+            self.append(value)
 
     def clear(self) -> None:
         ...
@@ -117,4 +162,6 @@ class LinkedList:
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
+    print(ll)
+    ll.insert(2, 23)
     print(ll)
