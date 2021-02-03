@@ -69,7 +69,8 @@ class LinkedList:
     def __len__(self):
         return self.__len
 
-    def __step_by_step__(self, item: int) -> Any:
+    def __step_by_step(self, item: int) -> "Node":
+        """ Возвращает Ноду по задаваемому индексу"""
         if not isinstance(item, int):
             raise TypeError(...)
 
@@ -79,7 +80,7 @@ class LinkedList:
         current_node = self.head
         for _ in range(item):
             current_node = current_node.next
-        return current_node.value
+        return current_node
 
     def __getitem__(self, item: int) -> Any:
         if not isinstance(item, int):
@@ -133,8 +134,8 @@ class LinkedList:
             self.__len += 1
 
         elif 1 <= index <= self.__len:
-            prev_node = self.__step_by_step__(index - 1)
-            current_node = prev_node
+            prev_node = self.__step_by_step(index-1)
+            current_node = prev_node.next
             insert_node = self.Node(value)
             self.__linked_nodes(insert_node, current_node)
             self.__linked_nodes(prev_node, insert_node)
@@ -163,5 +164,5 @@ class LinkedList:
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
     print(ll)
-    ll.insert(2, 23)
+    ll.insert(9, 23)
     print(ll)
