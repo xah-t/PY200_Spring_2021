@@ -105,9 +105,29 @@ class LinkedList:
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
         left.next = right
 
+    def __nodes_iterator(self) -> Node:
+        current_node = self.head
+        for i in range(self.__len):
+            current_node = current_node.next
+
+        return current_node
+
+
+
     def __iter__(self):  # ToDo перегрузить метод для работы с циклом for
         print('Вызван метод __iter__')
-        ...
+        self.current_index = 0
+        return self
+
+
+    def __next__(self):
+        print("Вызван __next__")
+        try:
+            value = self[self.current_index]
+            self.current_index +=1
+            return value
+        except IndexError:
+            raise StopIteration
 
 
 if __name__ == '__main__':
