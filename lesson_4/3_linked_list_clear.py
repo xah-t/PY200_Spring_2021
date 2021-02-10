@@ -51,7 +51,7 @@ class LinkedList:
             return f"{self.value}"
 
         def __del__(self):  # ToDo Вывод сообщения о том, что узел был удален
-            ...
+            print(f"удален узел{self}")
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
@@ -110,14 +110,20 @@ class LinkedList:
         left.next = right
 
     def clear(self):  # ToDo перегрузить метод для удаления всех узлов
-        ...
+        self.head = None
+        print("очищено")
 
+
+    def __nodes_iterator(self) -> Node:
+        current_node = self.head
+        for i in range(self.__len):
+            current_node = current_node.next
+
+        return current_node
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4, 5])
-    print(sys.getrefcount(ll))
-
-    # ToDo Вывести количество ссылок на каждый узел списка
-    ...
+#    print(sys.getrefcount(ll.head))
+ #   print(sys.getrefcount(ll.head.next))
 
     ll.clear()
