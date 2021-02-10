@@ -59,7 +59,8 @@ class DoubleLinkedNode(Node):
                  next_: Optional['Node'] = None,
                  prev: Optional['Node'] = None):
         # ToDo расширить возможности базового конструтора с учетом особенностей двусвязного списка
-        ...
+        super.__init__(value, next)
+
 
     def __repr__(self) -> str:
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
